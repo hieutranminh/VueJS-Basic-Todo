@@ -26,6 +26,10 @@
     padding: 3px;
     cursor: pointer;
 }
+.footer-todo .status.active {
+  background: chocolate;
+  color: #ffffff;
+}
 
 #todo .input-text {
     width: 100%;
@@ -110,4 +114,14 @@ div#todo h3 {
     color: white;
     padding: 4px;
     display: block;
+}
+.selectAll{
+  padding: 5px;
+  margin-top: 5px;
+}
+.rmselected{
+  padding: 3px ;
+  border: 1px solid black;
+  float: right;
+  cursor: pointer;
 }

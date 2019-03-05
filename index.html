@@ -10,29 +10,27 @@
 <body>
   <div id="todo">
     <h3>Todos App</h3>
-    <input type="text" class="input-text" placeholder="Searching?">
     <input type="text" v-on:keyup.enter="addTodo" class="input-text" placeholder="What need to be done?">
-    
     <!-- <p class="notify success" v-if="status">{{message}}</p> -->
     <!-- Component Todoapp-->
     <ul class="item-todo">
-      <div>
-        <button class="undo">Undo</button>
-        <button class="redo">Redo</button>
-      </div>
+      <selectall
+          @check-all = "CheckAllTodo"
+          @remove-selected = "RemoveSelected">
+      </selectall>
+
       <!-- con -->
-      <todoapp 
-        v-for="(item, index) in itemTodo" 
-        :key="index" 
-        :index="index" 
+      <todoapp
+        v-for="(item, index) in itemTodo"
+        :key="item.id"
+        :index="index"
         :itemprops="item"
         :filtertypetodo = "filtertype"
         :statusedit = "statusEdit"
+        :ischeckall = "isCheck"
         @delete-todo="deleteTodoList"
         @check-todo="checkedTodo"
-        @edit-todo="editTodo"
-
-      >
+        @edit-todo="editTodo">
       </todoapp>
       <!-- end con -->
 
@@ -45,9 +43,9 @@
       <!-- <button @click="allTodo" class="status">All</button>
       <button @click="doneTodo" class="status">Done</button> -->
       <!-- test -->
-      <button @click="filtertype = 'all'" class="status">All</button>
-      <button @click="filtertype = 'active'" class="status">Active</button>
-      <button @click="filtertype = 'done'" class="status">Done</button>
+      <button   @click="filtertype = 'all'" class="status" :class="{ active: filtertype === 'all' }">All</button>
+      <button @click="filtertype = 'active'" class="status" :class="{ active: filtertype === 'active' }">Active</button>
+      <button @click="filtertype = 'done'" class="status" :class="{ active: filtertype === 'done' }">Done</button>
 
 
     </div>

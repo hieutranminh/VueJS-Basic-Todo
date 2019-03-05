@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>TodoList</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="todo">
+  <h3>Todos App</h3>
+  <input type="text" v-on:keyup.enter="addTodo" class="input-text" placeholder="What need to be done?">
+  <!-- <p class="notify success" v-if="status">{{message}}</p> -->
+  <!-- Component Todoapp-->
+  <ul class="item-todo">
+    <selectall @check-all = "CheckAllTodo"></selectall>
+
+    <!-- con -->
+    <todoapp
+        v-for="(item, index) in itemTodo"
+        :key="index"
+        :index="index"
+        :itemprops="item"
+        :filtertypetodo = "filtertype"
+        :statusedit = "statusEdit"
+        :ischeckall = "isCheck"
+        @delete-todo="deleteTodoList"
+        @check-todo="checkedTodo"
+        @edit-todo="editTodo">
+    </todoapp>
+    <!-- end con -->
+
+  </ul>
+  <!-- end -->
+
+  <!-- Componet -->
+  <div class="footer-todo">
+    <p>{{itemTodo.length}} item left</p>
+    <!-- <button @click="allTodo" class="status">All</button>
+    <button @click="doneTodo" class="status">Done</button> -->
+    <!-- test -->
+    <button @click="filtertype = 'all'" class="status">All</button>
+    <button @click="filtertype = 'active'" class="status">Active</button>
+    <button @click="filtertype = 'done'" class="status">Done</button>
+
+
+  </div>
+  <!-- end -->
+</div>
+<script src="./vue.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>

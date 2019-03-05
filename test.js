@@ -4,14 +4,13 @@ Vue.component('todoapp', {
     return {
       statusEdit: false,
       editTodo: '',
-      ischeck: false,
     }
   },
   props: ['itemprops', 'index', 'filtertypetodo', 'statusedit','ischeckall'],
   template: `
     <div>
       <li v-if="!statusEdit" :class="{'done':itemprops.isDone}" v-show="isShow">
-        <input type="checkbox" :checked="ischeck" v-on:click="changeChecked">
+        <input type="checkbox" :checked="ischeckall" v-on:click="changeChecked">
         <span>{{itemprops.name}}</span>
         <button v-on:click="changeEdit" class="edit">Edit</button>
         <button v-on:click="$emit('delete-todo',itemprops.id)" class="delete">Delete</button>
@@ -22,12 +21,6 @@ Vue.component('todoapp', {
       </li>
     </div>
   `,
-  watch:{
-    ischeckall: function(){
-      this.ischeck = this.ischeckall;
-      console.log('Check lai')
-    }
-  },
   methods: {
     changeEdit: function () {
       this.statusEdit = !this.statusEdit
@@ -38,12 +31,11 @@ Vue.component('todoapp', {
       this.$emit('edit-todo', [this.itemprops.id, this.editTodo])
     },
     changeChecked: function () {
-      this.ischeck = !this.ischeck;
+      this.ischeckall = !this.ischeckall;
       this.$emit('check-todo',this.itemprops.id)
     }
   },
   computed: {
-
     isShow: function () {
       let flag = true
       if (this.filtertypetodo === 'all') {
@@ -68,17 +60,16 @@ Vue.component('selectall', {
   },
   template: `
     <div class="selectAll">
-      <input type="checkbox" v-on:click="checkAllTodo"> Select all
-      <button class="rmselected" v-on:click="removeSelected">remove selected</button>
+      <input type="checkbox"
+      v-on:click="checkAllTodo"> Select all
+      <p>{{checkAll}}</p>
+      <!--<p>{{checkAll}}</p>-->
     </div>
   `,
   methods: {
     checkAllTodo: function () {
       this.checkAll = !this.checkAll;
       this.$emit('check-all',this.checkAll);
-    },
-    removeSelected: function () {
-      this.$emit('remove-selected')
     }
   }
 })
@@ -112,10 +103,9 @@ var aaa = new Vue({
       var index = this.itemTodo.findIndex(item => item.id === index)
       this.itemTodo.splice(index, 1)
     },
-    checkedTodo: function (id) {
-      var index = this.itemTodo.findIndex(item => item.id === id)
+    checkedTodo: function (index) {
+      var index = this.itemTodo.findIndex(item => item.id === index)
       this.itemTodo[index].isDone = !this.itemTodo[index].isDone
-      console.log('Methods checkedTodo',this.itemTodo)
     },
     editTodo: function (result) {
       let index = this.itemTodo.findIndex(item => item.id === result[0])
@@ -130,17 +120,12 @@ var aaa = new Vue({
         }
       }
       console.log(this.isCheck)
-    },
-    RemoveSelected: function () {
-      // console.log(this.itemTodo.filter(item => item.isDone !== true))
-      this.itemTodo = this.itemTodo.filter(item => item.isDone !== true)
-      console.log('method removeSelected',this.itemTodo)
     }
   },
   computed: {},
   watch: {
     itemTodo: function () {
-      console.log(this.itemTodo)
+
     },
   },
 })
